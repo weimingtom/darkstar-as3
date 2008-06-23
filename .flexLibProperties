@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flexLibProperties version="1">
+<includeClasses>
+<classEntry path="com.alienos.sgs.as3.client.ClientChannel"/>
+<classEntry path="com.alienos.sgs.as3.client.SgsEvent"/>
+<classEntry path="com.alienos.sgs.as3.client.SimpleClient"/>
+<classEntry path="com.alienos.sgs.as3.protocol.SimpleSgsProtocol"/>
+<classEntry path="com.alienos.sgs.as3.util.HashMap"/>
+<classEntry path="com.alienos.sgs.as3.util.SgsByteArray"/>
+</includeClasses>
+<includeResources/>
+<namespaceManifests/>
+</flexLibProperties>

@@ -57,8 +57,17 @@ package com.alienos.sgs.as3.util
             }
             
             return values;
-        }                             
-		
+        }
+        
+        public function getKeys():Array {
+            var keys:Array = [];
 
+            for (var key:* in map)
+            {
+                keys.push( key );
+            }
+            
+            return keys;
+        }                                      
 	}
 }

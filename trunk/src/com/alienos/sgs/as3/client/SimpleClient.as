@@ -47,6 +47,9 @@ package com.alienos.sgs.as3.client
 		private var username:String;
 		private var passwd:String;
 		
+		private var messageFilter:MessageFilter;
+		
+		
 		/**
 		 * Constructs the SimpleClient. The provided host and port
 		 * will be used to connect when the login() method is called
@@ -57,7 +60,9 @@ package com.alienos.sgs.as3.client
 			this.port = port;
 			sock.addEventListener(Event.CLOSE, onClose);
         	sock.addEventListener(Event.CONNECT, onConnect);
-        	sock.addEventListener(ProgressEvent.SOCKET_DATA, onData);
+        	sock.addEventListener(ProgressEvent.SOCKET_DATA, onData);	
+        	messageFilter = new MessageFilter();
+        	messageFilter.addEventListener(SgsEvent.RAW_MESSAGE, onRawMessage);
 		}
 	
 		/**
@@ -145,7 +150,13 @@ package com.alienos.sgs.as3.client
 		private function onData(event:ProgressEvent):void 
 		{
         	trace("SimpleClient.onData(): received [" + event.bytesLoaded + "] bytes" );
+        	var buf:SgsByteArray = new SgsByteArray();
+        	sock.readBytes(buf,0,sock.bytesAvailable);
+        	messageFilter.receive(buf, this );
+        	
+        	
   			//TODO this can / will get hung if we get a malformed packet?
+  			/*
 			while(sock.bytesAvailable>0)
 			{
 				var buf:SgsByteArray = new SgsByteArray();
@@ -153,7 +164,13 @@ package com.alienos.sgs.as3.client
 				sock.readBytes(buf,0,payloadLength);
 				receivedMessage(buf);	
 			}
+			*/
     	}
+    	
+    	public function onRawMessage(e:SgsEvent):void {
+    		receivedMessage(e.rawMessage);
+    	}
+    	
     	
 		/**
 		 * This is the heart of the SimpleClient.  The method reads

@@ -19,40 +19,47 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
 */
-
 package com.alienos.sgs.as3.client
 {
 	import com.alienos.sgs.as3.util.SgsByteArray;
 	
-	import flash.events.Event;
-	import flash.utils.ByteArray;
+	import flash.events.EventDispatcher;
 	
-	public class SgsEvent extends Event
-	{
-		public static const LOGIN_SUCCESS:String 		= "loginSuccess";
-		public static const LOGIN_FAILURE:String 		= "loginFailure";	
-		public static const LOGIN_REDIRECT:String		= "loginRedirect";
-		public static const RECONNECT_SUCCESS:String	= "reconnectSuccess";
-		public static const RECONNECT_FAILURE:String	= "reconnectFailure";				
-		public static const SESSION_MESSAGE:String 		= "sessionMessage";
-		public static const LOGOUT:String				= "logout";
-		public static const CHANNEL_JOIN:String			= "channelJoin";
-		public static const CHANNEL_MESSAGE:String		= "channelMessage";
-		public static const CHANNEL_LEAVE:String		= "channelLeave";	
-		public static const RAW_MESSAGE:String			= "rawMessage";	
+	public class MessageFilter extends EventDispatcher
+	{	
+		private var messageBuffer:SgsByteArray;
 		
-		public var failureMessage:String;
-		public var sessionMessage:ByteArray;
-		public var channelMessage:ByteArray;
-		public var rawMessage:SgsByteArray;
-		public var channel:ClientChannel;
-		public var host:String;
-		public var port:int;
-		
-		public function SgsEvent(type:String)
+		public function MessageFilter()
 		{
-			super(type);
+			messageBuffer = new SgsByteArray();
 		}
+		
+		public function receive(buf:SgsByteArray, client:SimpleClient):void {
+			
+			//Stuff any new bytes into the buffer
+			messageBuffer.writeBytes(buf, 0, buf.length );
+			messageBuffer.position = 0;
+			
+			while(messageBuffer.bytesAvailable > 2 ) {
+				var payloadLength:int = messageBuffer.readShort();
+				
+				if(messageBuffer.bytesAvailable >= payloadLength ) {
+					var newMessage:SgsByteArray = new SgsByteArray();
+					messageBuffer.readBytes(newMessage,0,payloadLength);
+					var event:SgsEvent = new SgsEvent(SgsEvent.RAW_MESSAGE);
+					event.rawMessage = newMessage;
+					dispatchEvent(event);
+				}
+				else {
+					//Roll back the length we read
+					messageBuffer.position -= 2;
+					break;
+				}
+			}
 
+			var newBuffer:SgsByteArray = new SgsByteArray();
+			newBuffer.writeBytes(messageBuffer, messageBuffer.position, messageBuffer.bytesAvailable);
+			messageBuffer = newBuffer;
+		}
 	}
 }

@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>info.flex-mojos</groupId>
+		<artifactId>flex-super-pom</artifactId>
+		<version>2.0M10</version>
+	</parent>
+
 	<groupId>com.alienos.sgs</groupId>
 	<artifactId>darkstar-as3</artifactId>
 	<version>0.9.8</version>
 	<packaging>swc</packaging>
 	<description>Project Darkstar Actionscript SDK</description>
 
-	<!-- PLUGIN REPOSITORIES -->
-	<pluginRepositories>
-		<pluginRepository>
-			<id>ServeBox</id>
-			<name>ServeBox Repository</name>
-			<url>http://www.servebox.com/maven</url>
-		</pluginRepository>
-	</pluginRepositories>
-
-	<!-- BUILD -->
+	<repositories>
+		<repository>
+			<id>flex-mojos-repository</id>
+			<url>http://svn.sonatype.org/flexmojos/repository/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
 	<build>
+		<sourceDirectory>src</sourceDirectory>
 		<defaultGoal>install</defaultGoal>
-		<plugins>
-			<plugin>
-				<groupId>org.servebox.flex2</groupId>
-				<artifactId>flex2-plugin</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
-				<extensions>true</extensions>
-				<configuration>
-					<sourceDirectory>src</sourceDirectory>
-				</configuration>
-			</plugin>
-		</plugins>
 	</build>
+
 </project>
 

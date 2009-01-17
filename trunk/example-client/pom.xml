@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.alienos.sgs</groupId>
+		<artifactId>darkstar-as3-master</artifactId>
+		<version>0.9.8</version>
+	</parent>
+	<groupId>com.alienos.sgs</groupId>
+	<artifactId>example-client</artifactId>
+	<packaging>swf</packaging>
+	<description>Project Darkstar Actionscript SDK</description>
+	<name>example-client</name>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<defaultGoal>install</defaultGoal>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.alienos.sgs</groupId>
+			<artifactId>darkstar-as3</artifactId>
+			<type>swc</type>
+			<version>0.9.8</version>
+		</dependency>
+	</dependencies>
+
+</project>
+

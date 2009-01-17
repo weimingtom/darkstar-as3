@@ -11,7 +11,7 @@
             import com.alienos.sgs.as3.client.SimpleClient;
             import com.alienos.sgs.as3.client.SgsEvent;
             
-            private var client:SimpleClient = new SimpleClient("localhost", 1139);
+            private var client:SimpleClient;
 
 
 			[Bindable] 
@@ -21,16 +21,6 @@
             {            	
                 //Registers an event handler to make the enter key work nicely
                 stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-               
-              	client.addEventListener(SgsEvent.LOGIN_SUCCESS, onLoginSuccess);
-              	client.addEventListener(SgsEvent.LOGIN_FAILURE, onLoginFailure);
-              	client.addEventListener(SgsEvent.LOGIN_REDIRECT, onLoginRedirect);
-              	client.addEventListener(SgsEvent.SESSION_MESSAGE, onSessionMessage);
-              	client.addEventListener(SgsEvent.LOGOUT, onLogout);
-              	client.addEventListener(SgsEvent.CHANNEL_JOIN, onChannelJoin);
-              	client.addEventListener(SgsEvent.CHANNEL_MESSAGE, onChannelMessage);
-              	client.addEventListener(SgsEvent.CHANNEL_LEAVE, onChannelLeave);
-                
                 var fakeId:ByteArray = new ByteArray();
                 fakeId.writeShort(-1);
                 fakeId.position=0;
@@ -98,8 +88,19 @@
             
             private function login():void
             {    
+                client = new SimpleClient(hostField.text, int(portField.text) );
+                
+              	client.addEventListener(SgsEvent.LOGIN_SUCCESS, onLoginSuccess);
+              	client.addEventListener(SgsEvent.LOGIN_FAILURE, onLoginFailure);
+              	client.addEventListener(SgsEvent.LOGIN_REDIRECT, onLoginRedirect);
+              	client.addEventListener(SgsEvent.SESSION_MESSAGE, onSessionMessage);
+              	client.addEventListener(SgsEvent.LOGOUT, onLogout);
+              	client.addEventListener(SgsEvent.CHANNEL_JOIN, onChannelJoin);
+              	client.addEventListener(SgsEvent.CHANNEL_MESSAGE, onChannelMessage);
+              	client.addEventListener(SgsEvent.CHANNEL_LEAVE, onChannelLeave);                
                 
                 client.login(usernameField.text,"bogus");
+                
                 usernameField.text="";
             }
                           
@@ -132,9 +133,13 @@
         <mx:State name="login">
             <mx:AddChild position="lastChild">
                 <mx:Panel id="loginPanel" x="58.5" y="96" width="383" height="200" layout="absolute" title="Login">
-                    <mx:TextInput id="usernameField" x="101" y="40"/>
-                    <mx:Label x="10" y="42" text="Username" width="83" fontSize="12"/>
+                    <mx:TextInput id="usernameField" x="143" y="17"/>
+                    <mx:Label x="52" y="19" text="Username" width="83" fontSize="12"/>
+                    <mx:Label x="52" y="47" text="Host " width="83" fontSize="12"/>
+                    <mx:Label x="52" y="76" text="Port" width="83" fontSize="12"/>
                     <mx:Button id="loginButton" x="288" y="115" label="Login" height="35" click="login()"/>
+                    <mx:TextInput id="hostField" x="143" y="47" text="localhost"/>
+                    <mx:TextInput id="portField" x="143" y="76" text="1139"/>
                 </mx:Panel>
             </mx:AddChild>
         </mx:State>

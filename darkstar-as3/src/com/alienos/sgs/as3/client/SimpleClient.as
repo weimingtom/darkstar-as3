@@ -34,7 +34,7 @@ package com.alienos.sgs.as3.client
 	public class SimpleClient extends EventDispatcher
 	{
 		
-		//Currently unused?
+		//Currently unused
 		private var reconnectKey:ByteArray = new ByteArray();
 		
 		

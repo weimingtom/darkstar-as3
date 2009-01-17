@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>info.flex-mojos</groupId>
+		<artifactId>flex-super-pom</artifactId>
+		<version>2.0M10</version>
+	</parent>
+	<groupId>com.alienos.sgs</groupId>
+	<artifactId>darkstar-as3-master</artifactId>
+	<name>darkstar-as3-master</name>
+	<version>0.9.8</version>
+	<packaging>pom</packaging>
+	<description>Project Darkstar Actionscript SDK</description>
+
+	<modules>
+		<module>darkstar-as3</module>
+		<module>example-client</module>
+	</modules>
+
+	<build>
+		<defaultGoal>install</defaultGoal>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>flex-mojos-repository</id>
+			<url>http://svn.sonatype.org/flexmojos/repository/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+</project>
+
